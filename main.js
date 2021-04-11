@@ -66,9 +66,9 @@ function changeHP (player) {
     $playerLife.style.width = player.hp + '%';
     console.log(player.name, player.hp);
     
-    if (player.hp <0 ) {
-        $arenas.appendChild(playerLose(player.name));
-    }
+    // if (player.hp <0 ) {
+    //     $arenas.appendChild(playerLose(player.name));
+    // }
     
 }
 
@@ -85,12 +85,25 @@ function playerWin (name) {
     $randomButton.disabled = true;
     return $winTitle;
 }
+function playerNoWin (name) {
+    const $winTitle = createElement('div', 'loseTitle');
+    $winTitle.innerText = 'Оба мертвы';
+    $randomButton.disabled = true;
+    return $winTitle;
+}
 
 
 $randomButton.addEventListener('click', function() {
     changeHP (player1);
     changeHP (player2);
-    
+
+    if (player1.hp < 0 && player2.hp > 0) {
+        $arenas.appendChild(playerWin(player2.name));
+    } else if (player2.hp < 0 && player1.hp > 0) {
+        $arenas.appendChild(playerWin(player1.name));
+    } else if (player2.hp < 0 && player1.hp < 0) {
+        $arenas.appendChild(playerNoWin(player1.name));;
+    };
 });
 
 $arenas.appendChild(createPlayer(player1));
